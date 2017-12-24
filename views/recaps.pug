@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .page-header
+    h3 All Recaps
+  ul
+    for recap in recaps
+      li
+        h3= recap.title
+        p= recap.content
+        p= recap.email

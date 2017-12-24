@@ -1,0 +1,63 @@
+extends ../layout
+
+block content
+  .page-header
+    h2
+      i.fa.fa-facebook-square(style='color: #335397')
+      | Facebook API
+  .btn-group.btn-group-justified
+    a.btn.btn-primary(href='https://developers.facebook.com/docs/graph-api/quickstart/', target='_blank')
+      i.fa.fa-check-square-o
+      | Quickstart
+    a.btn.btn-primary(href='https://developers.facebook.com/tools/explorer', target='_blank')
+      i.fa.fa-facebook
+      | Graph API Explorer
+    a.btn.btn-primary(href='https://developers.facebook.com/docs/graph-api/reference/', target='_blank')
+      i.fa.fa-code-fork
+      | API Reference
+
+  h3
+    i.fa.fa-user
+    |  My Profile
+  img.thumbnail(src=`https://graph.facebook.com/${profile.id}/picture?type=large`, width='90', height='90')
+  h4= profile.name
+  h6 First Name: #{profile.first_name}
+  h6 Last Name: #{profile.last_name}
+  h6 Username: #{profile.username}
+  h6 Email: #{profile.email}
+
+  
+  block content
+    .page-header
+      h3 Your Recaps!
+    ul
+      for recap in recaps
+        li
+          h3= recap.title
+          p= recap.content
+          form.form-horizontal(method='PUT')
+            input(type='hidden', name='id', value=recap.id)
+            button.btn.btn-primary(type='submit' id='updateRecap' value="PUT")
+              i.fa.fa-edit
+              | Edit
+          
+  block content
+    .page-header
+      h3 Write A Recap, #{profile.first_name}!
+
+      form.form-horizontal(method='POST')
+        input(type='hidden', name='id', value=profile.id)
+        input(type='hidden', name='email', value=profile.email)
+        .form-group
+          label(class='col-sm-2 control-label', for='title') Title
+          .col-sm-8
+            input.form-control(type='text', name='title', id='title', autofocus=true)
+        .form-group
+          label(class='col-sm-2 control-label', for='message') Recap
+          .col-sm-8
+            textarea.form-control(name='recap', id='recap', rows='7')
+        .form-group
+          .col-sm-offset-2.col-sm-8
+            button.btn.btn-primary(type='submit')
+              i.fa.fa-envelope
+              | Send
